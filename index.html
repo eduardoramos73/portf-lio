@@ -26,7 +26,7 @@
       </span>
       <p class="hero-tag">Olá, sou</p>
       <h1>Eduardo Ramos</h1>
-      <h2>Desenvolvedor <span>Fullstack</span></h2>
+      <h2>Desenvolvedor <span id="typed-text"></span><span class="typed-cursor"></span></h2>
       <p class="hero-desc">Construo aplicações web, mobile e APIs — do banco de dados à interface.</p>
       <div class="hero-actions">
         <a href="#contato" class="btn">Entre em contato</a>
@@ -43,7 +43,7 @@
   </section>
 
   <section id="sobre">
-    <div class="container">
+    <div class="container fade-in">
       <h3 class="section-title">Sobre</h3>
       <p>
         Programo desde os 16 anos — comecei por curiosidade e virou profissão.
@@ -63,46 +63,25 @@
   </section>
 
   <section id="skills">
-    <div class="container">
+    <div class="container fade-in">
       <h3 class="section-title">Skills</h3>
-      <div class="skills-grid">
-        <div class="skill-group">
-          <h4>Frontend</h4>
-          <ul>
-            <li>HTML / CSS / JavaScript</li>
-            <li>React</li>
-            <li>Vue / Angular</li>
-          </ul>
-        </div>
-        <div class="skill-group">
-          <h4>Backend</h4>
-          <ul>
-            <li>Node.js / Express</li>
-            <li>Python</li>
-            <li>Java</li>
-          </ul>
-        </div>
-        <div class="skill-group">
-          <h4>Mobile</h4>
-          <ul>
-            <li>React Native</li>
-            <li>Flutter</li>
-          </ul>
-        </div>
-        <div class="skill-group">
-          <h4>Outros</h4>
-          <ul>
-            <li>SQLite / SQL</li>
-            <li>Git / GitHub</li>
-            <li>Bash / PowerShell</li>
-          </ul>
-        </div>
+      <div class="skills-list">
+        <div class="skill-item"><div class="skill-label"><span>HTML / CSS / JavaScript</span><span>Avançado</span></div><div class="skill-bar"><div class="skill-fill" data-width="92"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>Node.js / Express</span><span>Avançado</span></div><div class="skill-bar"><div class="skill-fill" data-width="88"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>React</span><span>Avançado</span></div><div class="skill-bar"><div class="skill-fill" data-width="85"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>Python</span><span>Avançado</span></div><div class="skill-bar"><div class="skill-fill" data-width="83"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>SQLite / SQL</span><span>Avançado</span></div><div class="skill-bar"><div class="skill-fill" data-width="85"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>Electron</span><span>Intermediário</span></div><div class="skill-bar"><div class="skill-fill" data-width="78"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>React Native</span><span>Intermediário</span></div><div class="skill-bar"><div class="skill-fill" data-width="74"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>Flutter</span><span>Intermediário</span></div><div class="skill-bar"><div class="skill-fill" data-width="70"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>Vue / Angular</span><span>Intermediário</span></div><div class="skill-bar"><div class="skill-fill" data-width="68"></div></div></div>
+        <div class="skill-item"><div class="skill-label"><span>Java</span><span>Intermediário</span></div><div class="skill-bar"><div class="skill-fill" data-width="65"></div></div></div>
       </div>
     </div>
   </section>
 
   <section id="projetos">
-    <div class="container">
+    <div class="container fade-in">
       <h3 class="section-title">Projetos</h3>
       <div class="projects-grid">
 
@@ -154,7 +133,7 @@
   </section>
 
   <section id="contato">
-    <div class="container">
+    <div class="container fade-in">
       <h3 class="section-title">Contato</h3>
       <div class="contato-grid">
 
@@ -199,6 +178,52 @@
   <footer>
     <p>Eduardo Ramos &copy; 2026</p>
   </footer>
+
+  <script>
+    // Animação de digitação
+    const words = ['Fullstack', 'Backend', 'Frontend', 'Fullstack'];
+    let wi = 0, ci = 0, deleting = false;
+    const el = document.getElementById('typed-text');
+
+    function type() {
+      const word = words[wi];
+      if (!deleting) {
+        el.textContent = word.slice(0, ++ci);
+        if (ci === word.length) {
+          if (wi === words.length - 1) return; // para no último
+          setTimeout(() => { deleting = true; type(); }, 1800);
+          return;
+        }
+      } else {
+        el.textContent = word.slice(0, --ci);
+        if (ci === 0) {
+          deleting = false;
+          wi = (wi + 1) % words.length;
+        }
+      }
+      setTimeout(type, deleting ? 60 : 100);
+    }
+    type();
+
+    // Fade-in ao scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Barras de progresso animadas
+    const barObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.skill-fill').forEach(bar => {
+            bar.style.width = bar.dataset.width + '%';
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    const skillsSection = document.querySelector('#skills');
+    if (skillsSection) barObserver.observe(skillsSection);
+  </script>
 
 </body>
 </html>
