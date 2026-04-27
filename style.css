@@ -296,13 +296,24 @@ section {
 .skill-label {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
   font-size: 0.88rem;
   color: var(--text);
 }
 
+.skill-label span:first-child {
+  flex: 1;
+}
+
 .skill-label span:last-child {
   color: var(--muted);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  background: rgba(124, 106, 255, 0.08);
+  border: 1px solid var(--accent-dim);
+  border-radius: 4px;
+  padding: 0.1rem 0.5rem;
 }
 
 .skill-bar {
